@@ -1,0 +1,61 @@
+\documentclass[10pt]{article}
+ \usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb,amsfonts,color, titling}
+ \usepackage{listings}
+
+\setlength{\droptitle}{-20mm} 
+
+\usepackage[colorlinks=true,linkcolor=red,urlcolor=blue]{hyperref}
+
+\title{In-class assignment \# 4}
+\author{Brian O'Shea, \\PHY-905-003, Computational Astrophysics and
+  Astrostatistics\\Spring 2017}
+ \date{} % leave blank to have no date
+
+\begin{document}
+ 
+\maketitle
+
+\vspace{-5mm}
+
+\noindent \textbf{Instructions:}   We're going to use the code for
+your pre-class assignment, where you modeled the behavior of a mass on
+a spring over some interval of time.  You've already implemented Euler
+method and a simple predictor-corrector method.  Now, implement (1)
+either the
+  \href{https://en.wikipedia.org/wiki/Semi-implicit_Euler_method}{Euler-Cromer
+  method}  or the 
+  \href{https://en.wikipedia.org/wiki/Midpoint_method}{midpoint
+    method} and (2) the
+  \href{https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods}{4th
+                                order Runge-Kutta method}, and answer
+                              the following questions:
+
+\begin{itemize}
+
+\item For given timestep sizes, $\Delta t = 0.1 \pi, 0.01 \pi,$ and
+  $0.001 \pi$, what is the
+  difference in the relative change in energy between the Euler
+  methods and these two methods?
+
+\item Assume you wish to maintain energy to a given level of accuracy
+  - say 0.01\% between $t=0$ and $t=4\pi$.  How many time steps of
+  each of your methods do you need to reach that level of accuracy?
+  How many total floating-point operations is that for each method for
+  the entire integration?
+
+\end{itemize}
+
+\noindent
+Make some notes in \texttt{ANSWERS.md}, and
+we'll also discuss it in class.
+
+\vspace{5mm}
+
+\noindent 
+\textbf{What to turn in:} Turn in \texttt{ANSWERS.md}, any
+source code you wrote, any plots you created (and the scripts you used
+to create them).  \textbf{Do not} turn in object files or
+executables!
+
+\end{document}
