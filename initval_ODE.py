@@ -70,11 +70,10 @@ def rungekutta4_integration(func, xvt_init, dt, n):
     x = np.zeros(n); x[0] = xvt_init[0]
     v = np.zeros(n); v[0] = xvt_init[1]
     t = np.zeros(n); t[0] = xvt_init[2]
-
-    for i in range(n-1):
-        dt_2 = dt/2.0
-        dt_6 = dt/6.0
+    dt_2 = dt/2.0
+    dt_6 = dt/6.0
         
+    for i in range(n-1):
         x1 = x[i]
         v1 = v[i]
         a1 = func(x1,v1,t[i])
