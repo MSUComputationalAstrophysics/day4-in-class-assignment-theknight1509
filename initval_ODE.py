@@ -1,6 +1,8 @@
 """
 Purpose:
 """
+import numpy as np
+import sys
 
 def euler_integration(func, xvt_init, dt, n):
     x = np.zeros(n); x[0] = xvt_init[0]
@@ -89,8 +91,9 @@ def rungekutta4_integration(func, xvt_init, dt, n):
         v4 = v[i] + a3*dt
         a4 = func(x4,v4,t[i])
         
-        v[i+1] = v[i] + (v1 + 2.0*v2 + 2.0*v3 + v4)*dt_6
-        x[i+1] = x[i] + (x1 + 2.0*x2 + 2.0*x3 + x4)*dt_6
+        v[i+1] = v[i] + (a1 + 2.0*a2 + 2.0*a3 + a4)*dt_6
+        x[i+1] = x[i] + (v1 + 2.0*v2 + 2.0*v3 + v4)*dt_6
+        
         t[i+1] = t[i] + dt
 
     return x,v,t
@@ -185,19 +188,21 @@ if __name__ =='__main__':
 
     epsilon = {}
     
-    for method in ["euler", "eulercromer", "rungekutta4"]:
-        timesteps = 10**np.linspace(-1,-5,5)
-        epsilon[method] = np.zeros((3,2))
-        for dt in timesteps:
-            t, x_num, x_an, v_num, v_an = test_scenario(timestep_per_pi=dt, int_method=method)
+    for method in ["euler", "eulercromer", "rungekutta4", "midpoint", "predcorr"]:
+        num_timesteps = 3
+        timesteps = 10**np.linspace(-1,-num_timesteps,num_timesteps)
+        epsilon[method] = np.zeros((num_timesteps,2))
+        for i in range(num_timesteps):
+            t, x_num, x_an, v_num, v_an = test_scenario(timestep_per_pi=timesteps[i], int_method=method)
             E_tot_start = total_energy(x_num[0],v_num[0])
             E_tot_end = total_energy(x_num[-1],v_num[-1])
             epsilon_current = relative_error(E_tot_end, E_tot_start)
-            epsilon[method][0,:] = np.array([epsilon_current, dt])
+            epsilon[method][i,:] = np.array([epsilon_current, timesteps[i]])
             
-
     pl.figure(); pl.grid(True)
+    stringname = ""
     for key in epsilon.keys():
+        stringname += key
         e = epsilon[key][:,0] #all errors for a given method
         dt = epsilon[key][:,1] #timesteps of errors
         pl.plot(dt,e, '.-', label=key)
@@ -208,6 +213,6 @@ if __name__ =='__main__':
     pl.xscale("log")
     pl.yscale("log")
     pl.legend(loc='best')
-    #pl.savefig()
+    pl.savefig("relative_error_" + stringname + ".png")
     pl.show()
     
